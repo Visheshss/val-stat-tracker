@@ -1,4 +1,5 @@
 import {Home} from './pages/home'
+import {Player} from './pages/player'
 import {
   Routes,
   Route
@@ -10,6 +11,7 @@ function App() {
     <div>
       <Routes>
           <Route path = '/' element = {<Home/>}/>
+          <Route path = '/player/:name/:tag' element = {<Player/>}/>
       </Routes>
     </div>
   );

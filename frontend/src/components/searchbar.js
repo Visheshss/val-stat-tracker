@@ -1,20 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export const SearchBar = ({userInput, onSearchChange, onSearchSubmit}) => {
+export const SearchBar = ({userInput}) => {
     
-    const handleChange = (event) => {
-        onSearchChange(event.target.value);
-    };
+    const [name,setName] = useState('')
+    const [tag,setTag] = useState('')
 
-    const handleSubmit = (event) => {
-        onSearchSubmit()
+    //As the search changes, this will trigger the state 'search' and 
+    const handleChange = (event) => {
+        const search = (event.target.value).split('#')
+        const name = search[0]
+        const tag = search[1]
+        setName(name)
+        setTag(tag)
     };
 
     return (
         <center>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <input onChange={handleChange} id='search' type='text' required value={userInput} placeholder='Search Username'/>
-                <input id='submit' type='submit'/>
+                <Link to={`/player/${name}/${tag}`}>
+                    <input id='submit' type='submit'/>
+                </Link>
             </form>
         </center>
     )
