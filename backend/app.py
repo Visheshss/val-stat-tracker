@@ -1,7 +1,4 @@
-from ast import parse
 from distutils.log import debug
-from tkinter.messagebox import NO
-from xml.dom.minidom import Identified
 from flask import Flask, app, jsonify, request, json, make_response, session
 import requests
 
@@ -27,6 +24,7 @@ def player(name, tag):
     data = response_API.text
     parse_json = json.loads(data)
 
+    print(parse_json)
     return parse_json
 
 

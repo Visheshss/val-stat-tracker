@@ -1,5 +1,6 @@
 import {Home} from './pages/home'
 import {Player} from './pages/player'
+import './App.css';
 import {
   Routes,
   Route

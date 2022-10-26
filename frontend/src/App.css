@@ -36,3 +36,150 @@
     transform: rotate(360deg);
   }
 }
+
+
+/*------------------NAVBAR------------------*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: red;
+  height: 50px;
+}
+
+li {
+float: left;
+font-weight: bold;
+}
+
+li a {
+display: block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+}
+
+li :hover:not(.active) {
+background-color: white;
+color: red;
+height: 100%;
+text-decoration: none;
+
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.active {
+background-color: #04AA6D;
+}
+
+#background {
+  background-color: rgb(23, 19, 19);
+  height: 800px;
+}
+/*------------------NAVBAR------------------*/
+
+
+  
+
+/*------------------SEARCHBAR------------------*/
+.search-hover {
+  position: relative;
+  border: 1px solid #ccc;
+  outline: none;
+  background-size: 22px;
+  background-position: 13px;
+  border-radius: 10px;
+  width: 150px;
+  height: 40px;
+  top: 10px;
+  transition: all 0.5s;
+  text-align: center;
+  font-size: 20px;
+}
+
+.search-hover:hover {
+  width: 600px;
+  color: red;
+}
+
+
+input::-webkit-input-placeholder {
+    color: #999;
+}
+input:focus::-webkit-input-placeholder {
+    color: red;
+}
+
+/* Firefox < 19 */
+input:-moz-placeholder {
+    color: #999;
+}
+input:focus:-moz-placeholder {
+    color: red;
+}
+
+/* Firefox > 19 */
+input::-moz-placeholder {
+    color: #999;
+}
+input:focus::-moz-placeholder {
+    color: red;
+}
+
+/* Internet Explorer 10 */
+input:-ms-input-placeholder {
+    color: #999;
+}
+input:focus:-ms-input-placeholder {
+    color: red;
+    
+}
+/*------------------SEARCHBAR------------------*/
+
+
+.search-box {
+  position: relative;
+  right: -300px;
+  display: flex;
+  justify-content: flex-end;
+  /* for demonstration */
+  background-color: red;
+  width: 250px;
+  height: 150px;
+  padding: 10px;
+}
+
+.search-box input {
+  text-align: center;
+  border-radius: 40px;
+  border: 0;
+  box-shadow: 0 0 5px whitesmoke, 0 0 10px whitesmoke;
+  padding: 0;
+  width: 0;
+  height: 30px;
+  transition: padding 0.6s ease-in-out,
+   width 0.6s ease-in-out;
+}
+
+.search-box:hover > input{
+  display: inline-block;
+  border-radius: 40px;
+  width: 170px;
+  outline: none;
+  color: red;
+  padding: 8px;
+  border: 1px solid whitesmoke;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: -5px;
+}

@@ -1,8 +1,8 @@
 import React, { Component, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
-export const SearchBar = ({userInput}) => {
-    
+export const MiniSearchBar = ({userInput}) => {
+
     const [name,setName] = useState('')
     const [tag,setTag] = useState('')
     let navigate = useNavigate();
@@ -21,12 +21,13 @@ export const SearchBar = ({userInput}) => {
     }
 
     return (
-        <center>
-            <form onSubmit={handleSubmit}>
-                <input onChange={handleChange} required value={userInput} placeholder='Username#Tag' type="text" class="search-hover"/>
-                <br/><br/>
-                <input id='submit' type='submit'/>
-            </form>
-        </center>
+        <>
+            <div >
+                <form onSubmit={handleSubmit} class="search-box d-flex justify-center align-center">
+                    <input onChange={handleChange} required value={userInput} type="text" placeholder="Username#Tag"/>
+                    <a class="p-20 cursor-pointer"><img class="search-btn max-h-20" src="https://findicons.com/files/icons/1262/amora/256/find.png" alt="search" /></a>
+                </form>
+            </div>
+        </>
     )
 }

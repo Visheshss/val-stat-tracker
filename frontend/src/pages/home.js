@@ -1,11 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
 import {SearchBar} from '../components/searchbar'
+import {NavBar} from '../components/navbar'
 export const Home = () => {
     
   return (
-    <div>
+    <div id='background'>
         <center>
-          <h1>Home Page</h1>
+          <NavBar/>
+          <h1 style={{color: 'white'}}>Search to view player stats</h1> <br/>
           <SearchBar/>
         </center>
     </div>
