@@ -96,11 +96,16 @@ background-color: #04AA6D;
   background-position: 13px;
   border-radius: 10px;
   width: 150px;
-  height: 40px;
+  height: 60px;
   top: 10px;
   transition: all 0.5s;
   text-align: center;
   font-size: 20px;
+}
+
+.search-hover:focus {
+  width: 600px;
+  color: red;
 }
 
 .search-hover:hover {
@@ -114,6 +119,9 @@ input::-webkit-input-placeholder {
 }
 input:focus::-webkit-input-placeholder {
     color: red;
+}
+input:hover::-webkit-input-placeholder {
+  color: red;
 }
 
 /* Firefox < 19 */
@@ -142,6 +150,8 @@ input:focus:-ms-input-placeholder {
 }
 /*------------------SEARCHBAR------------------*/
 
+
+/*------------------NAV SEARCHBAR------------------*/
 
 .search-box {
   position: relative;
@@ -183,3 +193,30 @@ img {
   position: relative;
   top: -5px;
 }
+/*------------------NAV SEARCHBAR------------------*/
+
+
+/*------------------SEARCHBAR BUTTON------------------*/
+.button {
+  background-color: white; /* Green */
+  border-color: red;
+  color: red;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 60px;
+  width: 150px;
+  vertical-align: middle;
+}
+
+.button:hover {
+  background-color: red;
+  color: white;
+}
+
+/*------------------SEARCHBAR BUTTON------------------*/
+

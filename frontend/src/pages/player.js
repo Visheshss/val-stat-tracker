@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { NavBar } from "../components/navbar";
 
 export const Player = () => {
     const {name,tag} = useParams();
@@ -21,7 +22,8 @@ export const Player = () => {
 
     return (
         <>
-            <center>
+            <center id='background'>
+                <NavBar/>
                 <h1>{player}</h1>
             </center>
         </>

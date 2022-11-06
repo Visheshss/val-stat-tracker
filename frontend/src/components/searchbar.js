@@ -25,7 +25,7 @@ export const SearchBar = ({userInput}) => {
             <form onSubmit={handleSubmit}>
                 <input onChange={handleChange} required value={userInput} placeholder='Username#Tag' type="text" class="search-hover"/>
                 <br/><br/>
-                <input id='submit' type='submit'/>
+                <input class='button' id='submit' type='submit' value='Search'/>
             </form>
         </center>
     )
