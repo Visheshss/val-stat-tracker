@@ -180,7 +180,17 @@ input:focus:-ms-input-placeholder {
 .search-box:hover > input{
   display: inline-block;
   border-radius: 40px;
-  width: 170px;
+  width: 300px;
+  outline: none;
+  color: red;
+  padding: 8px;
+  border: 1px solid whitesmoke;
+}
+
+.navbarinput:focus {
+  display: inline-block;
+  border-radius: 40px;
+  width: 300px;
   outline: none;
   color: red;
   padding: 8px;
@@ -220,3 +230,102 @@ img {
 
 /*------------------SEARCHBAR BUTTON------------------*/
 
+
+/*------------------LOADING MESSAGE------------------*/
+
+#loading {
+  color: white;
+  position: relative;
+  top: 225px;
+}
+
+/*------------------LOADING MESSAGE------------------*/
+
+/*------------------PLAYER HEADER------------------*/
+
+#player-card, #player-title {
+  display: inline-block;
+  position: relative;
+  left: -250px;
+}
+
+#player-title {
+  font-size: 80px;
+  color: white;
+  position: relative;
+  bottom: -30px;
+  letter-spacing: 2px;
+  margin-left: 20px;
+}
+
+#player-card {
+  position: left;
+  width: 100px;
+  height: 100px;
+}
+
+#player-header {
+  position: relative;
+  width: 80%;
+  height: 150px;
+  border-bottom-style: solid;
+  border-bottom-color: red;
+  background-image: linear-gradient(rgb(23, 19, 19),darkred);
+
+}
+
+/*------------------PLAYER HEADER------------------*/
+
+
+/*------------------OVR STATS CONTAINER------------------*/
+
+#ovr-stats-container {
+  width: 80%;
+  position: relative;
+  top: 50px;
+}
+
+#ovr-stats, #other-info {
+  display: inline-block;
+  font-size: 30px;
+  
+}
+
+#ovr-stats {
+  float: right;
+  width: 750px;
+  background-color: darkred;
+}
+
+#other-info {
+  width: 18%;
+}
+
+
+td {
+  text-align: center;
+  border: 2px solid rgb(23, 19, 19);
+  height: 90px;
+  width: 250px;
+  color: white;
+}
+
+#rank-png {
+  height: 120px;
+}
+
+#rank-title {
+  color: darkred;
+}
+
+/*------------------OVR STATS CONTAINER------------------*/
+
+
+/*------------------DISPLAY MATCHES------------------*/
+
+#matches {
+  position: relative;
+  top: 400px;
+}
+
+/*------------------DISPLAY MATCHES------------------*/

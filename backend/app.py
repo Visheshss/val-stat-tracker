@@ -1,6 +1,5 @@
 from distutils.log import debug
 from logging import exception
-from tkinter import E
 
 from flask import Flask, app, jsonify, request, json, make_response, session
 
@@ -12,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = 'key'
 
 
-@app.route('/player/<name>/<tag>', methods=['GET'])
+@app.route('/player/<name>/<tag>', methods=['POST', 'GET'])
 def player(name, tag):
     # If username has spaces in it, replace them with '%20' so that the API understands
     name = name.split(' ')
@@ -31,14 +30,19 @@ def player(name, tag):
     try:
         # Player card and account level
         acc_info = valo_api.get_account_details_by_name_v1(name, tag)
-        card, lvl, p_region, puuid = acc_info.card.small, acc_info.account_level, acc_info.region, acc_info.puuid
+        card, lvl, region, puuid = acc_info.card.small, acc_info.account_level, acc_info.region, acc_info.puuid
         account_data['status'] = 200
         account_data['card'], account_data['lvl'] = card, lvl
+
+        # Get current mmr information: current rank tier, elo, and ranking within tier
+        mmr = valo_api.get_mmr_details_by_puuid_v2(region=region, puuid=puuid)
+        comp_rank, elo, tier_rank, tier_png = mmr.current_data.currenttierpatched, mmr.current_data.elo, mmr.current_data.ranking_in_tier, mmr.current_data.currenttier
+        account_data['curRank'], account_data['elo'], account_data['tierRank'], account_data['tierPNG'] = comp_rank, elo, tier_rank, tier_png
 
         # Get last 20 matches
         point_type = valo_api.endpoints.raw.EndpointType.MATCH_HISTORY
         matches = valo_api.get_raw_data_v1(
-            type=point_type, value=puuid, region=p_region, queries={'startIndex': 0, 'endIndex': 20})
+            type=point_type, value=puuid, region=region, queries={'startIndex': 0, 'endIndex': 20})
         account_data['matches'] = {}
         account_data['overallStats'] = {'score': 0, 'kills': 0, 'deaths': 0,
                                         'assists': 0, 'headshots': 0, 'bodyshots': 0, 'legshots': 0}
@@ -49,7 +53,7 @@ def player(name, tag):
             iD, match_type = match.MatchID, match.QueueID
             match_details = valo_api.get_match_details_v2(match_id=iD)
             map_name = match_details.metadata.map
-            team_color = None
+            team_color, player_details = None, None
 
             # Find player and team color
             for player in match_details.players.red:
@@ -65,14 +69,15 @@ def player(name, tag):
                         team_color = 'blue'
                         break
 
+            # If the player does not exist on either team, skip this match
+            if not player_details:
+                continue
+
             # Store player info from the match in a hashmap
             stats, assets, char = player_details.stats, player_details.assets, player_details.character
 
-            # Find score and determine if the player's team won or lost
-            team_details = match_details.teams
-
             # Find the player's placement to determine if they won or lost
-            ranking = 1
+            '''ranking = 1
             acs = stats.score
             for player in match_details.players.all_players:
                 if acs < player.stats.score:
@@ -83,28 +88,39 @@ def player(name, tag):
                 if ranking == 1:
                     has_won = True
                 else:
-                    has_won = False
+                    has_won = False'''
 
             # If it is a team game, find the score and if the team won
+            # else:
+            team_details = match_details.teams
+            score = False, ''
+            if team_color == 'red':
+                won = team_details.red.rounds_won
+                lost = team_details.red.rounds_lost
+                has_won = team_details.red.has_won
+                score = str(won) + ' - ' + str(lost)
             else:
-                score = False, ''
-                if team_color == 'red':
-                    won = team_details.red.rounds_won
-                    lost = team_details.red.rounds_lost
-                    has_won = team_details.red.has_won
-                    score = str(won) + ' - ' + str(lost)
-                else:
-                    won = team_details.blue.rounds_won
-                    lost = team_details.blue.rounds_lost
-                    has_won = team_details.blue.has_won
-                    score = str(won) + ' - ' + str(lost)
+                won = team_details.blue.rounds_won
+                lost = team_details.blue.rounds_lost
+                has_won = team_details.blue.has_won
+                score = str(won) + ' - ' + str(lost)
+
+            # Add to total stats
+            account_data['overallStats']['score'] += stats.score
+            account_data['overallStats']['kills'] += stats.kills
+            account_data['overallStats']['deaths'] += stats.deaths
+            account_data['overallStats']['assists'] += stats.assists
+            account_data['overallStats']['headshots'] += stats.headshots
+            account_data['overallStats']['bodyshots'] += stats.bodyshots
+            account_data['overallStats']['legshots'] += stats.legshots
 
             # Turn classes into hashmaps
             stats = json.dumps(stats.__dict__)
-            assets = {'card': assets.card.small, 'agent': assets.agent.bust}
+            assets = {'card': assets.card.small,
+                      'agent': assets.agent.bust}
             player_match_info = {
                 'hasWon': has_won, 'stats': stats, 'assets': assets,
-                'map': map_name, 'character': char, 'rank': ranking}
+                'map': map_name, 'character': char}
             if match_type != 'deathmatch':
                 player_match_info['score'] = score
 
@@ -113,7 +129,8 @@ def player(name, tag):
                 account_data['matches'][match_type][iD] = player_match_info
 
             else:
-                account_data['matches'][match_type] = {iD: player_match_info}
+                account_data['matches'][match_type] = {
+                    iD: player_match_info}
 
         return account_data
 

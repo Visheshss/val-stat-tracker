@@ -22,9 +22,9 @@ export const MiniSearchBar = ({userInput}) => {
 
     return (
         <>
-            <div >
+            <div>
                 <form onSubmit={handleSubmit} class="search-box d-flex justify-center align-center">
-                    <input onChange={handleChange} required value={userInput} type="text" placeholder="Username#Tag"/>
+                    <input onChange={handleChange} class='navbarinput' required value={userInput} type="text" placeholder="Username#Tag"/>
                     <a class="p-20 cursor-pointer"><img class="search-btn max-h-20" src="https://findicons.com/files/icons/1262/amora/256/find.png" alt="search" /></a>
                 </form>
             </div>
