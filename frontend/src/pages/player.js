@@ -6,12 +6,15 @@ import { DisplayMatches } from "../components/displaymatches";
 
 export const Player = () => {
     const {name,tag} = useParams();
+    const _name = name + ''
+    const _tag = tag + ''
+
     const [fetching,setFetching] = useState('Please wait as we fetch stats');
 
     const [matches,setMatches] = useState('');
     const [ovrStats,setOvrStats] = useState('');
     const [otherInfo,setOtherInfo] = useState('');
-
+    
     //Responses to handle any API errors
     const responses = {400: 'Please use the format username#tagline.', 403: 'Account information is currently unavailable. Please try again later.', 503: 'Account information is currently unavailable. Please try again later.', 408: 'Account information is currently unavailable. Please try again later.', 429: 'Account information is currently unavailable. Please try again later.', 404: 'Player not found.'}
    
@@ -25,7 +28,7 @@ export const Player = () => {
             setFetching('')
             
             //Set ovrStats
-            const ovr_stats = {kills: data['overallStats']}
+            const ovr_stats = data['overallStats']
             setOvrStats(ovr_stats)
 
             //Set matches
@@ -34,12 +37,12 @@ export const Player = () => {
 
             //Set otherInfo
             const other_info = {
-                CurRank: data['curRank'],
-                Elo: data['elo'],
-                TierRank: data['tierRank'],
-                TierPNG: data['tierPNG'],
-                Card: data['card'],
-                Lvl: data['lvl']
+                'CurRank': data['curRank'],
+                'Elo': data['elo'],
+                'TierRank': data['tierRank'],
+                'TierPNG': 'https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/'+ data['tierPNG'] + '/largeicon.png',
+                'Card': data['card'],
+                'Lvl': data['lvl']
             }
             setOtherInfo(other_info)
 
@@ -60,13 +63,13 @@ export const Player = () => {
                     <h1 id='loading'>{fetching}</h1>
                     {otherInfo!='' && 
                         <div id='player-header'>
-                            <img id='player-card' src={otherInfo.Card}/>
-                            <h1 id='player-title'>{name}#{tag}</h1>
+                            <img id='player-card' src={otherInfo['Card']}/>
+                            <h1 id='player-title'>{_name}#{_tag}</h1>
                         </div>
                     }
                     {ovrStats!='' && <OvrStats ovrStats={ovrStats} otherInfo={otherInfo}/>}
                     
-                    {matches!='' && <DisplayMatches matches={matches}/>}    
+                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches}/>}    
                 </center>
             </div>
         </>

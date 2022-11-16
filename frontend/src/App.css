@@ -80,7 +80,7 @@ background-color: #04AA6D;
 
 #background {
   background-color: rgb(23, 19, 19);
-  height: 800px;
+  height: 1000px;
 }
 /*------------------NAVBAR------------------*/
 
@@ -245,8 +245,8 @@ img {
 
 #player-card, #player-title {
   display: inline-block;
-  position: relative;
-  left: -250px;
+  position: absolute;
+  left: 30px;
 }
 
 #player-title {
@@ -255,13 +255,17 @@ img {
   position: relative;
   bottom: -30px;
   letter-spacing: 2px;
-  margin-left: 20px;
+  left: 150px;
+  float: left;
+
 }
 
 #player-card {
-  position: left;
   width: 100px;
   height: 100px;
+  top: 35px;
+  border: 1px solid white;
+  border-radius: 30px;
 }
 
 #player-header {
@@ -271,7 +275,6 @@ img {
   border-bottom-style: solid;
   border-bottom-color: red;
   background-image: linear-gradient(rgb(23, 19, 19),darkred);
-
 }
 
 /*------------------PLAYER HEADER------------------*/
@@ -285,7 +288,7 @@ img {
   top: 50px;
 }
 
-#ovr-stats, #other-info {
+#ovr-stats, #other-info, #body-shots, #shot-count {
   display: inline-block;
   font-size: 30px;
   
@@ -293,12 +296,52 @@ img {
 
 #ovr-stats {
   float: right;
-  width: 750px;
+  width: 600px;
   background-color: darkred;
+  position: relative;
+  right: 200px
 }
+
+
 
 #other-info {
   width: 18%;
+}
+
+
+
+#shots-count {
+  float: right;
+  position: relative;
+  right: -675px;
+  top: -125px
+}
+
+#body-shots {
+  float: right;
+  position: relative;
+  right: -605px;
+  border: none;
+  top: 30px
+}
+
+.shot-nums {
+  color: red;
+}
+
+.body-parts {
+  border: none;
+  height: 50px;
+}
+
+.body-img {
+  width: 60px;
+  height: 100%;
+}
+
+#torso {
+  width: 85px;
+  left: 1px;
 }
 
 
@@ -306,26 +349,120 @@ td {
   text-align: center;
   border: 2px solid rgb(23, 19, 19);
   height: 90px;
-  width: 250px;
+  width: 200px;
   color: white;
 }
 
-#rank-png {
-  height: 120px;
+
+
+#rank-png-container {
+  border-bottom: 2px solid darkred;
+  background-image: (rgb(23, 19, 19),darkred);
+  width: 200px;
 }
 
-#rank-title {
-  color: darkred;
+#rank-title, #rank-png-container {
+  width: 175px;
+}
+
+#rank-png {
+  height: 90px;
+  width: 90px;
+}
+
+
+
+#stats-unavailable {
+  color: white;
+  width: 700px;
+  float: right;
+  position: relative;
+  right: 70px;
+  top: 50px;
 }
 
 /*------------------OVR STATS CONTAINER------------------*/
 
 
+
+/*------------------BODY SHOTS MINI------------------*/
+
+#shots-count-mini, #body-shots-mini {
+  float: right;
+  position: relative;
+  height: 20px;
+  width: 50%;
+  top: 30px;
+}
+
+#shots-count-mini {
+  float: right;
+}
+
+#body-shots-mini {
+  float: left;
+}
+
+.shot-nums-mini {
+  color: red;
+}
+
+.body-parts-mini {
+  border: none;
+  height: 30px;
+}
+
+.body-img-mini {
+  width: 40px;
+  height: 30px;
+}
+
+#torso-mini {
+  left: 1px;
+}
+
+/*------------------BODY SHOTS MINI------------------*/
+
+
 /*------------------DISPLAY MATCHES------------------*/
 
 #matches {
+  width: 80%;
   position: relative;
-  top: 400px;
+  height: 400px;
+  overflow-y: scroll;
+  border: 2px solid darkred;
+}
+
+.match-row {
+  height: 100px;
+  background-color: rgb(41, 0, 0);
+}
+
+.match-win {
+  background-image: linear-gradient(to right,lawngreen,rgb(41, 0, 0));
+}
+
+.match-loss {
+  background-image: linear-gradient(to right,red,rgb(41, 0, 0))
+}
+
+.agent-png {
+  height: 80px;
+  width: 80px;
+}
+
+.match-data {
+  border-top: 2px solid rgb(23, 19, 19);
+  border-bottom: 2px solid rgb(23, 19, 19);
+  border-left: none;
+  border-right: none;
+}
+
+.match-text {
+  font-size: 30px;
+  position: relative;
+  bottom: 0px;
 }
 
 /*------------------DISPLAY MATCHES------------------*/

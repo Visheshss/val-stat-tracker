@@ -24,13 +24,19 @@ def player(name, tag):
         name = name[0]
 
     # Make API requests using the username and return it to the frontend
-
     account_data = {}
 
     try:
+
         # Player card and account level
         acc_info = valo_api.get_account_details_by_name_v1(name, tag)
-        card, lvl, region, puuid = acc_info.card.small, acc_info.account_level, acc_info.region, acc_info.puuid
+        lvl, region, puuid = acc_info.account_level, acc_info.region, acc_info.puuid
+
+        if acc_info.card:
+            card = acc_info.card.small
+        else:
+            card = 'https://media.valorant-api.com/playercards/9fb348bc-41a0-91ad-8a3e-818035c4e561/smallart.png'
+
         account_data['status'] = 200
         account_data['card'], account_data['lvl'] = card, lvl
 
@@ -44,7 +50,7 @@ def player(name, tag):
         matches = valo_api.get_raw_data_v1(
             type=point_type, value=puuid, region=region, queries={'startIndex': 0, 'endIndex': 20})
         account_data['matches'] = {}
-        account_data['overallStats'] = {'score': 0, 'kills': 0, 'deaths': 0,
+        account_data['overallStats'] = {'score': [0, 0], 'kills': 0, 'deaths': 0,
                                         'assists': 0, 'headshots': 0, 'bodyshots': 0, 'legshots': 0}
 
         # Check each individual match and pull relevant information (match type, player stats, score, map,)
@@ -91,7 +97,6 @@ def player(name, tag):
                     has_won = False'''
 
             # If it is a team game, find the score and if the team won
-            # else:
             team_details = match_details.teams
             score = False, ''
             if team_color == 'red':
@@ -106,7 +111,9 @@ def player(name, tag):
                 score = str(won) + ' - ' + str(lost)
 
             # Add to total stats
-            account_data['overallStats']['score'] += stats.score
+            account_data['overallStats']['score'][0] += stats.score
+            account_data['overallStats']['score'][1] += 1
+
             account_data['overallStats']['kills'] += stats.kills
             account_data['overallStats']['deaths'] += stats.deaths
             account_data['overallStats']['assists'] += stats.assists
@@ -115,12 +122,14 @@ def player(name, tag):
             account_data['overallStats']['legshots'] += stats.legshots
 
             # Turn classes into hashmaps
-            stats = json.dumps(stats.__dict__)
-            assets = {'card': assets.card.small,
-                      'agent': assets.agent.bust}
+            stats = {'kills': stats.kills, 'deaths': stats.deaths, 'assists':
+                     stats.assists, 'score': stats.score, 'headshots': stats.headshots,
+                     'bodyshots': stats.bodyshots, 'legshots': stats.legshots}
+
             player_match_info = {
-                'hasWon': has_won, 'stats': stats, 'assets': assets,
-                'map': map_name, 'character': char}
+                'hasWon': has_won, 'stats': stats, 'agentPNG': assets.agent.small,
+                'map': map_name, 'agentName': char}
+
             if match_type != 'deathmatch':
                 player_match_info['score'] = score
 
