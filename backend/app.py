@@ -147,6 +147,11 @@ def player(name, tag):
     except ValoAPIException as error:
         return {'status': error.status}
 
+    except:
+        return {'status': 'unknown'}
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# N4RRATE#JESUS

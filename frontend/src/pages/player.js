@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { NavBar } from "../components/navbar";
 import { OvrStats } from "../components/ovrstats";
 import { DisplayMatches } from "../components/displaymatches";
+import { MatchTypeSelect } from "../components/matchtypeselect";
 
 export const Player = () => {
     const {name,tag} = useParams();
@@ -12,11 +13,18 @@ export const Player = () => {
     const [fetching,setFetching] = useState('Please wait as we fetch stats');
 
     const [matches,setMatches] = useState('');
+
+    //ovrStats stores the stats of the current match type. However, matches of all types are considered
+    //in the initial load, and if the user changes the match type, they can change it back to 'All'. defStats
+    //stores stats for all games.
     const [ovrStats,setOvrStats] = useState('');
+    const [defStats,setDefStats] = useState('');
+
     const [otherInfo,setOtherInfo] = useState('');
-    
+    const [matchType,setMatchType] = useState('All')
+
     //Responses to handle any API errors
-    const responses = {400: 'Please use the format username#tagline.', 403: 'Account information is currently unavailable. Please try again later.', 503: 'Account information is currently unavailable. Please try again later.', 408: 'Account information is currently unavailable. Please try again later.', 429: 'Account information is currently unavailable. Please try again later.', 404: 'Player not found.'}
+    const responses = {'unknown': 'We were unable to retrieve stats for'+_name+'#'+_tag+'. Please try again.', 400: 'Please use the format username#tagline.', 403: 'Account information is currently unavailable. Please try again later.', 503: 'Account information is currently unavailable. Please try again later.', 408: 'Account information is currently unavailable. Please try again later.', 429: 'Account information is currently unavailable. Please try again later.', 404: 'Player not found.'}
    
     //useEffect will happen when a new name and tag are searched for or when the page loads 
     useEffect(() => {
@@ -30,8 +38,9 @@ export const Player = () => {
             //Set ovrStats
             const ovr_stats = data['overallStats']
             setOvrStats(ovr_stats)
+            setDefStats(ovr_stats)
 
-            //Set matches
+            //Set matches   
             const all_matches = data['matches']
             setMatches(all_matches)
 
@@ -52,8 +61,22 @@ export const Player = () => {
             setFetching(responses[data['status']])
         }},
         );
-  }, [name,tag])
+    }, [name,tag])
+  
+    const handleTypeChange = (e) => {
+        setMatchType(e)
+    }
 
+    const handleStatsChange = (e) => {
+        //If the selected match type is 'All', set the ovrStats to defStats, which stores
+        //stats for games of all types. Otherwise, update ovrStats to stats for the selected
+        //gamemode 
+        if (matchType == 'All') {
+            setOvrStats(defStats)
+        } else {
+            setOvrStats(e)
+        }
+    }
 
     return (
         <>
@@ -67,15 +90,12 @@ export const Player = () => {
                             <h1 id='player-title'>{_name}#{_tag}</h1>
                         </div>
                     }
+                    {matches!='' && ovrStats['deaths'] > 0 && <MatchTypeSelect matches={matches} onTypeChange={handleTypeChange}/>}
                     {ovrStats!='' && <OvrStats ovrStats={ovrStats} otherInfo={otherInfo}/>}
-                    
-                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches}/>}    
+                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches} matchtype={matchType} onStatsChange={handleStatsChange}/>}    
                 </center>
             </div>
         </>
     )
 
  }
-
- //URL for getting rank png, <rank> is an integer corresponding to any given rank
- //https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/<rank>/largeicon.png 

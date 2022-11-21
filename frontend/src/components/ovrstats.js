@@ -132,7 +132,7 @@ export const OvrStats = ({ ovrStats, otherInfo }) => {
 
                 </>
                 } 
-
+                
                 {gamesPlayed == 0 &&
                     <h1 id='stats-unavailable'>Stats are unavailable because no recent games can be found for this user.</h1>
                  }
