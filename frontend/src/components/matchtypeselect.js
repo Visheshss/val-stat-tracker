@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import { capitalizeFirstLetter } from './match';
 
 export const MatchTypeSelect = ({matches, onTypeChange}) => {
@@ -8,12 +8,17 @@ export const MatchTypeSelect = ({matches, onTypeChange}) => {
         onTypeChange(matchType)
     };
 
+    const textInput = useRef(null);
+    useEffect(() => {
+        textInput.current.focus();
+    }, []);
+
     return (
         <>  
             <table id='match-type-select-table'>
                 <tr>
                     <td>
-                        <input class='match-type-btn' type='button' onClick={handleSubmit} value='All'/>
+                        <input ref={textInput} class='match-type-btn' type='button' onClick={handleSubmit} value='All'/>
                     </td>
                     {Object.keys(matches).map((type) => {
                         
@@ -25,7 +30,7 @@ export const MatchTypeSelect = ({matches, onTypeChange}) => {
                         
                         return (
                             <td>
-                                <input class='match-type-btn' type='button' onClick={handleSubmit} value={type}></input>
+                                <input class='match-type-btn' type='button' onClick={handleSubmit} value={type_caps}></input>
                             </td>
                         );
                     })

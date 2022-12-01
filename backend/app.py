@@ -6,13 +6,14 @@ from flask import Flask, app, jsonify, request, json, make_response, session
 import valo_api
 from valo_api.exceptions.valo_api_exception import ValoAPIException
 
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.secret_key = 'key'
 
 
-@app.route('/player/<name>/<tag>', methods=['POST', 'GET'])
-def player(name, tag):
+def format_name(name):
     # If username has spaces in it, replace them with '%20' so that the API understands
     name = name.split(' ')
     if len(name) > 1:
@@ -23,6 +24,11 @@ def player(name, tag):
     else:
         name = name[0]
 
+
+@app.route('/player/<name>/<tag>', methods=['POST', 'GET'])
+def player(name, tag):
+
+    format_name(name)
     # Make API requests using the username and return it to the frontend
     account_data = {}
 
@@ -57,6 +63,12 @@ def player(name, tag):
         # Store the information in a hash map account_info
         for match in matches.History:
             iD, match_type = match.MatchID, match.QueueID
+
+            # If the match type is empty, the frontend won't be able to categorize it. To avoid
+            # any such problems, any matches without a proper match type won't be added to account_data['matches]
+            if match_type == '':
+                continue
+
             match_details = valo_api.get_match_details_v2(match_id=iD)
             map_name = match_details.metadata.map
             team_color, player_details = None, None
@@ -149,6 +161,54 @@ def player(name, tag):
 
     except:
         return {'status': 'unknown'}
+
+
+@app.route('/mmr', methods=['POST', 'GET'])
+def mmr():
+    # Retrieve name of the requested player and format it
+    json_res = json.loads(request.data)
+    name, tag = json_res['content']
+    format_name(name)
+
+    # Get puuid
+    acc_info = valo_api.get_account_details_by_name_v1(name, tag)
+    region, puuid = acc_info.region, acc_info.puuid
+
+    mmrHistory = valo_api.get_mmr_history_by_puuid_v1(
+        region=region, puuid=puuid)
+    mmrHistoryData = []
+
+    # Add a dictionary containing info for each match. This format will make it easier to use
+    # the data with Chart.js
+    for match in mmrHistory:
+        api_date, cur_rank, elo = match.date, match.currenttierpatched, match.elo
+
+        # Convert date to the format that Chart.js uses (YYYY-MM-DDT00:00:00)
+        a, b, c = api_date.split(', ')
+        month, day = b.split(' ')
+        year, time, AmPm = c.split(' ')
+
+        if len(time) == 4:
+            time = '0'+time
+        hour, minute = time.split(':')
+
+        dateTimeObj = month+' '+day+', ' + year + \
+            ' ' + hour + ':' + minute + ' ' ' ' + AmPm
+
+        dateTimeObj = datetime.strptime(dateTimeObj, "%B %d, %Y %I:%M %p")
+        dateTimeObj = str(dateTimeObj)
+        date, time = dateTimeObj.split(' ')
+        final_datetime = date + 'T' + time
+
+        # Add data into a hashmap
+        cur_match_data = {
+            'date': final_datetime,
+            'cur_rank': cur_rank,
+            'elo': elo
+        }
+        # print(cur_match_data['date'])
+        mmrHistoryData.append(cur_match_data)
+    return {'res': mmrHistoryData}
 
 
 if __name__ == '__main__':

@@ -28,7 +28,12 @@ export const Match = ({ match, matchType }) => {
     const shotInfo = calcShots(stats['headshots'],stats['bodyshots'],stats['legshots'])
     const bodyParts = shotInfo[0]
     const shotNums = shotInfo[1]
-    var matchType = capitalizeFirstLetter(matchType)
+    
+    if (matchType=='spikerush') {
+        var matchType = 'Spike Rush' 
+    } else {
+        var matchType = capitalizeFirstLetter(matchType)
+    }
 
     //dictionary storing keys to each matchtype's icon
     const matchTypeIcons = {
@@ -50,7 +55,7 @@ export const Match = ({ match, matchType }) => {
     } else {
         var matchColor = 'match-data match-loss'
     }
-
+   
     return (
         <>       
             <tr class='match-row'>
@@ -60,7 +65,7 @@ export const Match = ({ match, matchType }) => {
                             {match['agentName']} 
                     </h3>
                 </td>
-                <td class='match-data'>
+                <td class='match-data match-type'>
                     <h3 class='match-text'>
                         {matchType} <img src={icon}/>   <br/><br/>
                         {match['map']} 

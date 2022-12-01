@@ -20,11 +20,17 @@ export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
         onStatsChange(stats)
     };
 
+    if (matchtype == 'Spike Rush') {
+        var matchtype = 'spikerush'
+    } else {
+        var matchtype = matchtype.toLowerCase()
+    }
+
     return (
         <>       
             <div id='matches'>
                 <center>
-                    {matchtype=='All' &&
+                    {matchtype=='all' &&
                     //Iterate through each stored match if the specified type of matches is all
                         <>
                             {Object.keys(matches).map((type) => {
@@ -39,7 +45,7 @@ export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
                             }
                         </>
                     }
-                    {matchtype!='All' &&
+                    {matchtype!='all' &&
                     //If a match type is specified, iterate through only games of that match type.
                         <>  
                             {Object.keys(matches[matchtype]).map((matchID) => {

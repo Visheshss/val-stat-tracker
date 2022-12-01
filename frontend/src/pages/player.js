@@ -4,6 +4,7 @@ import { NavBar } from "../components/navbar";
 import { OvrStats } from "../components/ovrstats";
 import { DisplayMatches } from "../components/displaymatches";
 import { MatchTypeSelect } from "../components/matchtypeselect";
+import { Chart } from "../components/mmrchart";
 
 export const Player = () => {
     const {name,tag} = useParams();
@@ -12,7 +13,7 @@ export const Player = () => {
 
     const [fetching,setFetching] = useState('Please wait as we fetch stats');
 
-    const [matches,setMatches] = useState('');
+    const [matches,setMatches] = useState();
 
     //ovrStats stores the stats of the current match type. However, matches of all types are considered
     //in the initial load, and if the user changes the match type, they can change it back to 'All'. defStats
@@ -22,6 +23,7 @@ export const Player = () => {
 
     const [otherInfo,setOtherInfo] = useState('');
     const [matchType,setMatchType] = useState('All')
+    const [mmr,setMMR] = useState('')
 
     //Responses to handle any API errors
     const responses = {'unknown': 'We were unable to retrieve stats for'+_name+'#'+_tag+'. Please try again.', 400: 'Please use the format username#tagline.', 403: 'Account information is currently unavailable. Please try again later.', 503: 'Account information is currently unavailable. Please try again later.', 408: 'Account information is currently unavailable. Please try again later.', 429: 'Account information is currently unavailable. Please try again later.', 404: 'Player not found.'}
@@ -78,6 +80,30 @@ export const Player = () => {
         }
     }
 
+    const getMMR = () => {
+        fetch("/mmr", {
+          method: "POST",
+          body: JSON.stringify({ content: [_name,_tag] }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            'Accept': 'application/json'
+          },
+        })
+          .then((res) => res.json())
+          .then((info) => {
+            setMMR(info['res'])
+          });
+      }
+      
+      
+    //If the currently selected game mode is competitive, use a useEffect hook to retrieve 
+    //the player's MMR history from the backend.
+    useEffect(() => {
+        if (matchType=='Competitive') {
+            getMMR()
+        }
+    }, [matchType])
+
     return (
         <>
             <div id='background'>
@@ -91,8 +117,9 @@ export const Player = () => {
                         </div>
                     }
                     {matches!='' && ovrStats['deaths'] > 0 && <MatchTypeSelect matches={matches} onTypeChange={handleTypeChange}/>}
+                    {matchType=='Competitive' && <Chart mmrData={mmr}/>}
                     {ovrStats!='' && <OvrStats ovrStats={ovrStats} otherInfo={otherInfo}/>}
-                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches} matchtype={matchType} onStatsChange={handleStatsChange}/>}    
+                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches} matchtype={matchType} onStatsChange={handleStatsChange}/>}<br/><br/>
                 </center>
             </div>
         </>
