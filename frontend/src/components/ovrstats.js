@@ -92,43 +92,45 @@ export const OvrStats = ({ ovrStats, otherInfo }) => {
                 <>
                     <table id='ovr-stats'>
                         <tr>
-                            <td>Kills: {kills}</td>
-                            <td>Assists: {assists}</td>
-                            <td>Deaths: {deaths}</td>
+                            <td class='ovr-stat-row'>Kills: {kills}</td>
+                            <td class='ovr-stat-row'>Assists: {assists}</td>
+                            <td class='ovr-stat-row'>Deaths: {deaths}</td>
                         </tr>
                         <tr>
-                            <td>K/D: {KD}</td>
-                            <td>Score: {avgScore}</td>
-                            <td>KAD: {KAD}</td>
-                        </tr>
-                    </table>
-
-                    <table id='body-shots'>
-                        <tr>
-                            <td class='body-parts'> <img src={bodyParts.head} class='body-img'/> </td>
-                            
-                        </tr>
-                        <tr>
-                            <td class='body-parts'> <img src={bodyParts.body} class='body-img' id='torso'/> </td>
-                            
-                        </tr>
-                        <tr>
-                            <td class='body-parts'> <img src={bodyParts.legs} class='body-img'/> </td>
-                            
+                            <td class='ovr-stat-row'>K/D: {KD}</td>
+                            <td class='ovr-stat-row'>Score: {avgScore}</td>
+                            <td class='ovr-stat-row'>KAD: {KAD}</td>
                         </tr>
                     </table>
                     
-                    <table id='shots-count'>
-                        <tr>
-                            <td class='body-parts shot-nums'>{shotNums[0]}%</td>
-                        </tr>
-                        <tr>
-                            <td class='body-parts shot-nums'>{shotNums[1]}%</td>
-                        </tr>
-                        <tr>
-                            <td class='body-parts shot-nums'>{shotNums[2]}%</td>
-                        </tr>
-                    </table>
+                    <div id='shots-container'>
+                        <table id='body-shots'>
+                            <tr>
+                                <td class='body-parts'> <img src={bodyParts.head} class='body-img'/> </td>
+                                
+                            </tr>
+                            <tr>
+                                <td class='body-parts'> <img src={bodyParts.body} class='body-img' id='torso'/> </td>
+                                
+                            </tr>
+                            <tr>
+                                <td class='body-parts'> <img src={bodyParts.legs} class='body-img'/> </td>
+                                
+                            </tr>
+                        </table>
+                        
+                        <table id='shots-count'>
+                            <tr>
+                                <td class='body-parts shot-nums'>{shotNums[0]}%</td>
+                            </tr>
+                            <tr>
+                                <td class='body-parts shot-nums'>{shotNums[1]}%</td>
+                            </tr>
+                            <tr>
+                                <td class='body-parts shot-nums'>{shotNums[2]}%</td>
+                            </tr>
+                        </table>
+                    </div>
 
                 </>
                 } 

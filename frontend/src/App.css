@@ -66,7 +66,7 @@ background-color: white;
 color: red;
 height: 100%;
 text-decoration: none;
-
+transition: all 0.5s;
 }
 
 .disabled {
@@ -90,6 +90,7 @@ background-color: #04AA6D;
   
 
 /*------------------SEARCHBAR------------------*/
+
 .search-hover {
   position: relative;
   border: 1px solid #ccc;
@@ -97,7 +98,8 @@ background-color: #04AA6D;
   background-size: 22px;
   background-position: 13px;
   border-radius: 10px;
-  width: 150px;
+  width: 15%;
+  min-width: 150px;
   height: 60px;
   top: 10px;
   transition: all 0.5s;
@@ -106,12 +108,12 @@ background-color: #04AA6D;
 }
 
 .search-hover:focus {
-  width: 600px;
+  width: 50%;
   color: red;
 }
 
 .search-hover:hover {
-  width: 600px;
+  width: 50%;
   color: red;
 }
 
@@ -155,14 +157,17 @@ input:focus:-ms-input-placeholder {
 
 /*------------------NAV SEARCHBAR------------------*/
 
+#search-bar {
+  position: relative;
+}
+
 .search-box {
   position: relative;
-  right: -300px;
+  float:right;
   display: flex;
   justify-content: flex-end;
-  /* for demonstration */
   background-color: red;
-  width: 250px;
+  width: 20%;
   height: 150px;
   padding: 10px;
 }
@@ -182,7 +187,8 @@ input:focus:-ms-input-placeholder {
 .search-box:hover > input{
   display: inline-block;
   border-radius: 40px;
-  width: 300px;
+  width: 100%;
+  min-width: 120px;
   outline: none;
   color: red;
   padding: 8px;
@@ -192,7 +198,7 @@ input:focus:-ms-input-placeholder {
 .navbarinput:focus {
   display: inline-block;
   border-radius: 40px;
-  width: 300px;
+  width: 100%;
   outline: none;
   color: red;
   padding: 8px;
@@ -221,7 +227,8 @@ img {
   cursor: pointer;
   border-radius: 10px;
   height: 60px;
-  width: 150px;
+  width: 15%;
+  min-width: 150px;
   vertical-align: middle;
 }
 
@@ -238,40 +245,55 @@ img {
 #loading {
   color: white;
   position: relative;
-  top: 225px;
+  top: 120px;
+}
+
+#loading-gif {
+  width: 30%;
+  height: 30%;
+  position: relative;
+  top: 100px;
 }
 
 /*------------------LOADING MESSAGE------------------*/
 
 /*------------------PLAYER HEADER------------------*/
 
-#player-card, #player-title {
-  display: inline-block;
-  position: absolute;
-  left: 30px;
+.player-header-cell {
+  border: None;
+}
+
+#player-card-cell {
+  width: 20%;
+}
+
+#player-title-cell {
+  width: 80%;
 }
 
 #player-title {
-  font-size: 80px;
+  font-size: 5.5vw;
+  letter-spacing: 2px;
   color: white;
   position: relative;
-  bottom: -30px;
-  letter-spacing: 2px;
-  left: 150px;
   float: left;
-
+  top: 20%;
 }
 
 #player-card {
-  width: 100px;
-  height: 100px;
-  top: 35px;
+  position: relative;
+  top: 10%;
   border: 1px solid white;
   border-radius: 30px;
+  width: 50%;
+  height: auto;
+  min-width: 70px;
+  min-height: 70px;
+  max-height: 100px;
+  max-width: 100px;
 }
 
 #player-header {
-  position: relative;
   width: 80%;
   height: 150px;
   border-bottom-style: solid;
@@ -290,41 +312,48 @@ img {
   top: 50px;
 }
 
-#ovr-stats, #other-info, #body-shots, #shot-count {
+#ovr-stats, #other-info, #shots-container {
   display: inline-block;
-  font-size: 30px;
-  
+  font-size: 2.2vw;
 }
 
 #ovr-stats {
-  float: right;
-  width: 600px;
-  background-color: darkred;
   position: relative;
-  right: 210px
+  width: 50%;
+  background-color: darkred;
+  bottom: 120px;
 }
 
+.ovr-stat-row {
+  width: 100/3%;
+  font-size: 2.2vw;
+}
 
 
 #other-info {
-  width: 18%;
+  align-items: center;
+  width: 25%;
 }
 
 
+#shots-container {
+  position: relative;
+  width: 25%;
+  top: 25px;
+  right: 3%;
+}
 
 #shots-count {
-  float: right;
   position: relative;
-  right: -675px;
-  top: -125px
+  font-size: 2.2vw;
+  left: 48%;
+  bottom: 150px;
 }
 
 #body-shots {
-  float: right;
   position: relative;
-  right: -605px;
+  font-size: 30px;
   border: none;
-  top: 30px
 }
 
 .shot-nums {
@@ -337,13 +366,15 @@ img {
 }
 
 .body-img {
-  width: 60px;
+  width: 30%;
+  min-width: 40px;
   height: 100%;
 }
 
 #torso {
-  width: 85px;
-  left: 1px;
+  width: 44%;
+  min-width: 57px;
+  left: 1.5px;
 }
 
 
@@ -360,16 +391,18 @@ td {
 #rank-png-container {
   border-bottom: 2px solid darkred;
   background-image: (rgb(23, 19, 19),darkred);
-  width: 200px;
+  width: 25%;
 }
 
 #rank-title, #rank-png-container {
-  width: 175px;
+  width: 100%;
 }
 
 #rank-png {
-  height: 90px;
-  width: 90px;
+  height: 90%;
+  width: 50%;
+  min-width: 80px;
+  min-height: 80px;
 }
 
 
@@ -380,7 +413,7 @@ td {
   float: right;
   position: relative;
   right: 70px;
-  top: 50px;
+  bottom: 150px;
 }
 
 /*------------------OVR STATS CONTAINER------------------*/
@@ -388,7 +421,6 @@ td {
 
 
 /*------------------BODY SHOTS MINI------------------*/
-
 #shots-count-mini, #body-shots-mini {
   float: right;
   position: relative;
@@ -421,9 +453,8 @@ td {
 
 #torso-mini {
   left: 1px;
-  width: 90%;
+  width: 58px;
 }
-
 /*------------------BODY SHOTS MINI------------------*/
 
 
@@ -443,7 +474,7 @@ td {
 }
 
 .match-row {
-  height: 165px;
+  height: 100/3%;
   background-color: rgb(41, 0, 0);
 }
 
@@ -465,15 +496,23 @@ td {
   border-bottom: 2px solid rgb(23, 19, 19);
   border-left: none;
   border-right: none;
+  width: 100/7%;
+  min-width: 120px;
 }
 
 .match-type {
-  width: 225px;
+  border-top: 2px solid rgb(23, 19, 19);
+  border-bottom: 2px solid rgb(23, 19, 19);
+  border-left: none;
+  border-right: none;
+  min-width: 169px;
 }
 
 .match-score {
   font-size: 35px;
   font-weight: bold;
+  position: relative;
+  right: 15px;
 }
 
 .match-stat {
@@ -485,6 +524,10 @@ td {
   font-size: 22px;
   position: relative;
   bottom: 20px;
+}
+
+#match-type-icon {
+  position: relative;
 }
 
 /*------------------DISPLAY MATCHES------------------*/
@@ -528,6 +571,6 @@ td {
 /*------------------MATCH TYPE SELECT------------------*/
 
 #chart {
-  width: 800px;
-  height: 250px;
+  width: 80%;
+  height: 100%;
 }

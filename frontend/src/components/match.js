@@ -24,7 +24,7 @@ export const capitalizeFirstLetter = (str) => {
 export const Match = ({ match, matchType }) => {
     const stats = match['stats']
 
-    //Calculate information needed to display breakdown of where the  player shoots
+    //Calculate information needed to display breakdown of where the  player shoots.
     const shotInfo = calcShots(stats['headshots'],stats['bodyshots'],stats['legshots'])
     const bodyParts = shotInfo[0]
     const shotNums = shotInfo[1]
@@ -35,7 +35,7 @@ export const Match = ({ match, matchType }) => {
         var matchType = capitalizeFirstLetter(matchType)
     }
 
-    //dictionary storing keys to each matchtype's icon
+    //Hashmap stores keys to each matchtype's icon.
     const matchTypeIcons = {
         'Unrated': '96BD3920-4F36-D026-2B28-C683EB0BCAC5',
         'Competitive': '96bd3920-4f36-d026-2b28-c683eb0bcac5',
@@ -48,8 +48,10 @@ export const Match = ({ match, matchType }) => {
         'Snowball': '57038D6D-49B1-3A74-C5EF-3395D9F23A97'
     }
 
+    //Get icon for the match type.
     const icon = 'https://media.valorant-api.com/gamemodes/' + matchTypeIcons[matchType] + '/displayicon.png'
 
+    //Change styling based on if the match was won or lost by the player.
     if (match['hasWon'] == true) {
         var matchColor = 'match-data match-win'
     } else {
@@ -60,19 +62,19 @@ export const Match = ({ match, matchType }) => {
         <>       
             <tr class='match-row'>
                 <td class={matchColor}>
-                    <h3>
+                    <h4>
                         <img class='agent-png' src={match['agentPNG']}></img> <br/>
                             {match['agentName']} 
-                    </h3>
+                    </h4>
                 </td>
-                <td class='match-data match-type'>
+                <td class='match-type'>
                     <h3 class='match-text'>
-                        {matchType} <img src={icon}/>   <br/><br/>
+                        {matchType} <img id='match-type-icon' src={icon}/>   <br/><br/>
                         {match['map']} 
                     </h3>
                 </td>
                 <td class='match-data'></td>
-                {matchType!='deathmatch' && <td class='match-data match-score'>{match['score']}</td>}
+                {matchType!='deathmatch' && <td class='match-data'><h4 class='match-score'>{match['score']}</h4></td>}
                 <td class='match-data'>
                     <h3 class='match-stat'>
                         K/D/A <br/>

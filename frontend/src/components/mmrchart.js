@@ -1,8 +1,9 @@
 import React, { Component, useState } from 'react';
 
-import { Chart as ChartJS, LineElement, TimeScale, LinearScale, PointElement, Tooltip, Legend } from "chart.js/auto";
+import { Chart as ChartJS, LineElement, TimeScale, LinearScale, PointElement, Tooltip, Legend} from "chart.js/auto";
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
+import 'chartjs-plugin-datalabels'
 
 ChartJS.register(
   LineElement,
@@ -44,7 +45,6 @@ export const Chart = ({mmrData}) => {
       }
     }
   }
-  
 
   const data =  {
       labels: mmrData.map((data) => data['date']),

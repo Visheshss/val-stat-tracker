@@ -1,13 +1,13 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useTransition } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 export const SearchBar = ({userInput}) => {
     
-    const [name,setName] = useState('')
-    const [tag,setTag] = useState('')
+    const [name,setName] = useState('');
+    const [tag,setTag] = useState('');
     let navigate = useNavigate();
 
-    //As the search changes, this will trigger the state 'search' and 
+    //As the search changes, the name and tag states are updated.
     const handleChange = (event) => {
         const search = (event.target.value).split('#');
         const name = search[0];
@@ -16,6 +16,7 @@ export const SearchBar = ({userInput}) => {
         setTag(tag);
     };
 
+    //
     const handleSubmit = () => {
         navigate(`/player/${name}/${tag}`);
     }
