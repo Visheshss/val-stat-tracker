@@ -1,5 +1,3 @@
-import React, { Component, useState } from 'react';
-
 import { Chart as ChartJS, LineElement, TimeScale, LinearScale, PointElement, Tooltip, Legend} from "chart.js/auto";
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
@@ -16,7 +14,7 @@ ChartJS.register(
 
 export const Chart = ({mmrData}) => {
 
-  var mmrData = Array.from(mmrData)
+  mmrData = Array.from(mmrData)
 
   const options = {
     plugins: {

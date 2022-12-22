@@ -66,6 +66,8 @@ def player(name, tag):
             # any such problems, any matches without a proper match type won't be added to account_data['matches].
             if match_type == '':
                 continue
+            if match_type == 'Deathmatch':
+                print('deathmatch')
 
             match_details = valo_api.get_match_details_v2(match_id=iD)
             map_name = match_details.metadata.map
@@ -91,20 +93,6 @@ def player(name, tag):
 
             # Store player info from the match in a hashmap.
             stats, assets, char = player_details.stats, player_details.assets, player_details.character
-
-            # Find the player's placement to determine if they won or lost.
-            '''ranking = 1
-            acs = stats.score
-            for player in match_details.players.all_players:
-                if acs < player.stats.score:
-                    ranking += 1
-
-            # If it's a deathmatch, use the ranking to determine if the player won
-            if match_type == 'deathmatch':
-                if ranking == 1:
-                    has_won = True
-                else:
-                    has_won = False'''
 
             # If it is a team game, find the score and if the team won.
             team_details = match_details.teams

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { OvrStats } from "../components/ovrstats";
@@ -30,24 +30,15 @@ export const Player = () => {
     const [matchType,setMatchType] = useState('All')
     const [mmr,setMMR] = useState('')
 
-    //Responses to handle any API errors
-    const responses = {'unknown': 'We were unable to retrieve stats for '+searchedName+'#'+searchedTag+'. Please try again.', 
-                        400: 'Please use the format username#tagline.', 
-                        403: 'Riot API is currently down. Please try again later.', 
-                        503: 'Riot API is currently down. Please try again later.', 
-                        408: 'Account information is currently unavailable. Please try again later.', 
-                        429: 'Account information is currently unavailable. Please try again later.', 
-                        404: 'Player not found.',
-                        408: 'Timeout while fetching player stats.',
-                        500: 'Internal server error. Player information is currently unavailable.'
-                    }
+    
    
     //useEffect will happen when a new name and tag are searched for or when the page loads.
     useEffect(() => {
+        
         fetch(`/player/${searchedName}/${searchedTag}`)
         .then((res) => res.json())
         .then((data) =>  
-        {if (data['status'] == 200) {
+        {if (data['status'] === 200) {
             //Remove loading message.
             setFetching('')
             
@@ -76,7 +67,16 @@ export const Player = () => {
             setOtherInfo(other_info)
 
         } else {
-
+            //Responses to handle any API errors
+            const responses = {'unknown': 'We were unable to retrieve stats for '+searchedName+'#'+searchedTag+'. Please try again.', 
+            400: 'Please use the format username#tagline.', 
+            403: 'Riot API is currently down. Please try again later.', 
+            503: 'Riot API is currently down. Please try again later.', 
+            408: 'Account information is currently unavailable. Please try again later.', 
+            429: 'Account information is currently unavailable. Please try again later.', 
+            404: 'Player not found.',
+            500: 'Internal server error. Player information is currently unavailable.'
+}
             //Explain error to user.
             setFetching(responses[data['status']])
         }},
@@ -91,36 +91,36 @@ export const Player = () => {
         //If the selected match type is 'All', set the ovrStats to defStats, which stores
         //stats for games of all types. Otherwise, update ovrStats to stats for the selected
         //gamemode. 
-        if (matchType == 'All') {
+        if (matchType === 'All') {
             setOvrStats(defStats)
         } else {
             setOvrStats(e)
         }
     }
-
+    
     //Fetch MMR history using player name and tag.
     const getMMR = () => {
         fetch("/mmr", {
-          method: "POST",
-          body: JSON.stringify({ content: [playerName,playerTag] }),
-          headers: {
+        method: "POST",
+        body: JSON.stringify({ content: [playerName,playerTag] }),
+        headers: {
             "Content-type": "application/json; charset=UTF-8",
             'Accept': 'application/json'
-          },
+        },
         })
-          .then((res) => res.json())
-          .then((info) => {
+        .then((res) => res.json())
+        .then((info) => {
             setMMR(info['res'])
-          });
-      }
-      
-      
+        });
+    }
+
     //If the currently selected game mode is competitive, use a useEffect hook to retrieve 
     //the player's MMR history from the backend.
     useEffect(() => {
-        if (matchType=='Competitive') {
-            getMMR()
+        if (matchType === 'Competitive') {
+            getMMR();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchType])
 
     return (
@@ -129,12 +129,12 @@ export const Player = () => {
                 <br></br>
                 <center>
                     <h1 id='loading'>{fetching}</h1>
-                    {fetching=='Please wait as we fetch stats' && <img id='loading-gif' src={loading} alt="loading..."/>}
-                    {otherInfo!='' && 
+                    {fetching === 'Please wait as we fetch stats' && <img id='loading-gif' src={loading} alt="loading..."/>}
+                    {otherInfo !== '' && 
                         <table id='player-header'>
                             <tr>
                                 <td class='player-header-cell' id='player-card-cell'>
-                                    <img id='player-card' src={otherInfo['Card']}/>
+                                    <img id='player-card' src={otherInfo['Card']} alt=''/>
                                 </td>
                                 <td class='player-header-cell' id='player-title-cell'>
                                     <h1 id='player-title'>{playerName}#{playerTag}</h1>
@@ -142,10 +142,10 @@ export const Player = () => {
                             </tr>
                         </table>
                     }
-                    {matches!='' && ovrStats['deaths'] > 0 && <MatchTypeSelect matches={matches} onTypeChange={handleTypeChange}/>}
-                    {matchType=='Competitive' && <Chart mmrData={mmr}/>}
-                    {ovrStats!='' && <OvrStats ovrStats={ovrStats} otherInfo={otherInfo}/>}
-                    {matches!='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches} matchtype={matchType} onStatsChange={handleStatsChange}/>}<br/><br/>
+                    {matches !== '' && ovrStats['deaths'] > 0 && <MatchTypeSelect matches={matches} onTypeChange={handleTypeChange}/>}
+                    {matchType === 'Competitive' && mmr.length > 0 && <Chart mmrData={mmr}/>}
+                    {ovrStats !=='' && <OvrStats ovrStats={ovrStats} otherInfo={otherInfo}/>}
+                    {matches !=='' && ovrStats['deaths'] > 0 && <DisplayMatches matches={matches} matchtype={matchType} onStatsChange={handleStatsChange}/>}<br/><br/>
                 </center>
             </div>
         </>

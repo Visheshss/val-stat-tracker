@@ -1,4 +1,3 @@
-import React, { Component, useEffect, useState } from 'react';
 import {SearchBar} from '../components/searchbar'
 
 export const Home = () => {

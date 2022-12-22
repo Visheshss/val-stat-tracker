@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { capitalizeFirstLetter } from './match';
 
 export const MatchTypeSelect = ({matches, onTypeChange}) => {
@@ -24,8 +24,8 @@ export const MatchTypeSelect = ({matches, onTypeChange}) => {
                         
                         var type_caps = capitalizeFirstLetter(type)
 
-                        if (type_caps == 'Spikerush') {
-                            var type_caps = 'Spike Rush'
+                        if (type_caps === 'Spikerush') {
+                            type_caps = 'Spike Rush'
                         } 
                         
                         return (

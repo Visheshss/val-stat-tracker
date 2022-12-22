@@ -1,4 +1,4 @@
-import React, { Component, useState, useTransition } from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 export const SearchBar = ({userInput}) => {

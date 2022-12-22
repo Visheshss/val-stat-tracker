@@ -3,7 +3,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import React, {lazy,Suspense,useTransition} from 'react'
+import React, {lazy,Suspense} from 'react'
 import { NavBar } from './components/navbar';
 
 const Home = lazy(() => import('./pages/home').then( module => {

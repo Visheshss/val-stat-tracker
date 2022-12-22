@@ -1,5 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import searchIcon from '../images/search-icon.png';
 
 export const MiniSearchBar = ({userInput}) => {
 
@@ -25,7 +26,9 @@ export const MiniSearchBar = ({userInput}) => {
             <div id='search-bar'>
                 <form onSubmit={handleSubmit} class="search-box d-flex justify-center align-center">
                     <input onChange={handleChange} class='navbarinput' required value={userInput} type="text" placeholder="Username#Tag"/>
-                    <a class="p-20 cursor-pointer"><img class="search-btn max-h-20" src="https://findicons.com/files/icons/1262/amora/256/find.png" alt="search" /></a>
+                    <a class="p-20 cursor-pointer" href={handleSubmit}>
+                        <img class="search-btn max-h-20" src='https://findicons.com/files/icons/1262/amora/256/find.png' alt='https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/245532/58-512.png' />
+                    </a>
                 </form>
             </div>
         </>

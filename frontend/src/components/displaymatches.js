@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Match } from './match';
 
 export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
@@ -11,6 +11,8 @@ export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
         //If matchtype has changed, then curTypeStats will have been updated with stats for
         //the newly selected game mode.
         statsChange(curTypeStats)
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchtype]) 
 
     //statsChange is triggered when matchtype changes and sends the updated stats to player.js
@@ -20,17 +22,17 @@ export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
         onStatsChange(stats)
     };
 
-    if (matchtype == 'Spike Rush') {
-        var matchtype = 'spikerush'
+    if (matchtype === 'Spike Rush') {
+        matchtype = 'spikerush'
     } else {
-        var matchtype = matchtype.toLowerCase()
+        matchtype = matchtype.toLowerCase()
     }
 
     return (
         <>       
             <div id='matches'>
                 <center>
-                    {matchtype=='all' &&
+                    {matchtype === 'all' &&
                     //Iterate through each stored match if the specified type of matches is all
                         <>
                             {Object.keys(matches).map((type) => {
@@ -45,7 +47,7 @@ export const DisplayMatches = ({matches, matchtype, onStatsChange}) => {
                             }
                         </>
                     }
-                    {matchtype!='all' &&
+                    {matchtype !== 'all' &&
                     //If a match type is specified, iterate through only games of that match type.
                         <>  
                             {Object.keys(matches[matchtype]).map((matchID) => {
